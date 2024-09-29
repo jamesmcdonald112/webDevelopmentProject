@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <!-- Style sheet CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+
+    <title>Home</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <!-- This section defines a responsive navigation bar that adjusts its appearance for different screen sizes using Bootstrap classes -->
+    <nav
+      class="navbar navbar-height navbar-expand-lg navbar-dark fixed-top navbar-transition"
+    >
+      <!-- container-fluid allows the navbar to take up the full width of the screen size -->
+      <div class="container-fluid">
+        <!-- Links back to the homepage when clicked -->
+        <a class="navbar-brand d-none d-lg-block" href="#">
+          <!-- Image used as the logo -->
+          <img
+            class="navbar-img"
+            src="/images/watch-high-resolution-logo-white-transparent.png"
+            alt="WatchShop Logo"
+        /></a>
+        <!-- Toggler button that appears on smaller screens to hide or show the navbar menu -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <!-- Icon for the toggle button provided by Bootstrap -->
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible container for navigtion links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <!-- Navigation links for the site -->
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <!-- Active class indicated the current page -->
+              <a class="nav-link active" aria-current="page" href="#top"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <!-- Link to the checkout page -->
+              <a class="nav-link" href="./checkout">
+                Checkout
+                <i class="bi bi-cart-fill"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Carousel -->
+    <!-- This section creates an image carousel slider that automatically cycles through a set of images. Taken from the Bootstrap website -->
+    <div
+      id="carouselExampleIndicators"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <!-- Dynamically generated based on the number of products. Each indicator corresponds to a carousel slide. -->
+
+      <ol class="carousel-indicators">
+        <% products.forEach((product, index) => { %>
+        <li
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="<%= index %>"
+          class="<%= index === 0 ? 'active' : '' %>"
+        ></li>
+        <% }); %>
+      </ol>
+
+      <!-- Container for the carousel slides, each containing an image and caption. -->
+      <div class="carousel-inner">
+        <% products.forEach((product, index) => { %>
+        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+          <img
+            src="./images/<%= product.image_url %>"
+            class="d-block w-100"
+            alt="<%= product.name %>"
+          />
+          <!-- Displays additional information about the image, only visible on medium and larger screens. -->
+          <div class="carousel-caption d-none d-md-block p-3">
+            <h5><%= product.name %></h5>
+            <p><%= product.description %></p>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+      <!-- Buttons for navigating to the previous or next slide. -->
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <!-- Product section listed as cards -->
+    <div class="container mt-3 text-center">
+      <div class="row">
+        <!-- Lists all products in the database -->
+        <% products.forEach(product => { %>
+        <div class="col-12 col-md-6 col-lg-6 mb-4">
+          <div class="card h-100 shadow-sm">
+            <!-- Images are set dynamically -->
+            <img
+              src="../images/<%= product.image_url %>"
+              class="card-img-top card-img-size-sm"
+              alt="<%= product.name %>"
+            />
+            <div class="card-body">
+              <!-- Display product name and description from the database -->
+              <h5 class="card-title"><%= product.name %></h5>
+              <p class="card-text"><%= product.description %></p>
+              <!-- Link to a detailed view of the product, passing the product ID as a query parameter -->
+              <a
+                href="/shop?rec=<%= product.id %>"
+                class="btn btn-primary stretched-link"
+              >
+                <!-- 'stretched-link' makes the entire card clickable -->
+                View Details
+              </a>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+      <a class="btn btn-primary btn-lg" href="checkout" role="button"
+        >Checkout</a
+      >
+    </div>
+
+    <!-- About -->
+    <!-- This section provides information about the company -->
+    <section id="about" class="container mt-5">
+      <div class="row g-0">
+        <!-- Image container -->
+        <!-- This column contains an image. It uses Bootstrap's grid system to take up half the space on large screens and is hidden on smaller screens. -->
+        <div class="col-lg-6">
+          <div class="about-img d-none d-lg-block"></div>
+        </div>
+        <!-- Text container -->
+        <!-- This column contains the descriptive text about the company. It adjusts to center the content vertically and horizontally in larger screens. -->
+        <div
+          class="col-lg-6 d-flex align-items-center justify-content-center bg-light"
+        >
+          <div class="text-center p-4">
+            <h2 class="text-info">About Us</h2>
+            <p class="fw-bold">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Doloribus, autem.
+            </p>
+            <p class="text-dark">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo
+              amet debitis labore, id tempora expedita hic dolorum sint? Eos
+              aspernatur iusto exercitationem voluptatibus excepturi blanditiis
+              perspiciatis, rerum autem aliquam ratione, iure quasi error quos
+              nisi sapiente tempore id sit quaerat obcaecati. Corrupti
+              perspiciatis alias molestiae, laboriosam cumque sit odio fuga quis
+              id asperiores atque minima. Neque, quam veritatis! Expedita
+              possimus id voluptas dolorem non praesentium, numquam quis debitis
+              illum eum! Atque aliquid ipsum, sapiente dolorum reprehenderit
+              harum iste. Ea totam earum facere eveniet suscipit a odio, amet
+              culpa autem, cumque accusamus. Fugit laudantium modi nihil ipsum
+              magni necessitatibus facilis repudiandae.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <!-- This section provides methods for users to contact the company. -->
+    <section id="contact" class="container mt-5 mb-5">
+      <div class="row text-center">
+        <!-- Phone Contact -->
+        <!-- Includes an icon for phone communication, the phone number, and a clickable link to initiate a phone call. -->
+        <div class="col-lg-4 mb-4">
+          <i class="fas fa-phone fa-5x"></i>
+          <p><strong>Phone:</strong> (01) 436 0024</p>
+          <a href="tel:+12345678900" class="btn btn-primary">Call Us</a>
+        </div>
+
+        <!-- Email Contact -->
+        <!-- Includes an icon for email, the email address, and a clickable link to send an email. -->
+        <div class="col-lg-4 mb-4">
+          <i class="fas fa-envelope fa-5x"></i>
+          <p><strong>Email:</strong> info@example.com</p>
+          <a href="mailto:support@example.com" class="btn btn-primary"
+            >Email Us</a
+          >
+        </div>
+
+        <!-- Physical Address -->
+        <!-- Includes an icon for location, and displays the physical address of the company. -->
+        <div class="col-lg-4">
+          <i class="fas fa-map-marker-alt fa-5x"></i>
+          <p><strong>Address:</strong> Abbey Street, Dublin, Ireland</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Sign-up Form -->
+    <!-- This form allows users to subscribe to a newsletter. It includes client-side validation to ensure the email field is not left empty and contains a properly formatted email address. -->
+    <div id="newsletter-signup" class="container py-4 bg-light">
+      <h2 class="text-center mb-3 text-secondary">
+        Subscribe to our newsletter
+      </h2>
+      <form
+        id="newsletter-form"
+        class="row g-2 justify-content-center"
+        onsubmit="return validateNewsletterForm()"
+      >
+        <div class="col-12 col-md-auto">
+          <input
+            type="email"
+            id="newsletter-email"
+            class="form-control border-secondary"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div class="col-12 col-md-auto">
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </div>
+        <div
+          id="newsletter-message"
+          class="text-center mt-3 text-success"
+        ></div>
+        <p id="newsletter-message" class="text-center mt-3"></p>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-center text-white py-3">
+      <div class="text-center p-3">© 2024 WatchShop: All rights reserved</div>
+    </footer>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- navbar.js -->
+    <script src="../scripts/navbar.js"></script>
+    <!-- Validate Newsletter form -->
+    <script src="../scripts/validateNewsletterForm.js"></script>
+  </body>
+</html>
